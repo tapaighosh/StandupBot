@@ -1,0 +1,30 @@
+[project]
+name = "standupbot-backend"
+version = "0.1.0"
+description = "StandupBot — Async daily standup collector for remote teams (FastAPI backend)"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "A", "SIM", "TCH"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/alembic/*", "app/__init__.py"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true

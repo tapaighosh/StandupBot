@@ -1,0 +1,16 @@
+/* StandupBot — Public Layout Styles */
+
+.public-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-primary);
+  padding: var(--space-4);
+}
+
+.public-content {
+  width: 100%;
+  max-width: 480px;
+  animation: fadeInUp var(--transition-slow) forwards;
+}

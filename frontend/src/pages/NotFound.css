@@ -1,0 +1,35 @@
+/* StandupBot — NotFound Page Styles */
+
+.not-found-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.not-found-content {
+  animation: fadeInUp var(--transition-slow) forwards;
+}
+
+.not-found-code {
+  font-size: 8rem;
+  font-weight: var(--font-weight-bold);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.not-found-title {
+  margin-top: var(--space-4);
+  font-size: var(--font-size-3xl);
+}
+
+.not-found-text {
+  margin: var(--space-4) 0 var(--space-8);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-tertiary);
+}

@@ -1,0 +1,1 @@
+"""StandupBot — Pydantic Schemas Package."""

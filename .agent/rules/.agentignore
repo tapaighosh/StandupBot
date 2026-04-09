@@ -1,0 +1,49 @@
+# Agent Ignore — files and directories the agent should skip
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Node.js
+node_modules/
+frontend/dist/
+frontend/build/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.production
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# Test artifacts
+htmlcov/
+coverage/
+.coverage
+.pytest_cache/
+
+# Alembic auto-generated (agent should only read, not modify directly)
+# backend/alembic/versions/
+
+# Agent artifacts
+.gemini/

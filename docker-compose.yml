@@ -1,0 +1,33 @@
+# =============================================================
+# StandupBot — Docker Compose for Local Development
+# =============================================================
+# Usage: docker compose up -d
+# See DOCKER_README.md for detailed instructions
+# =============================================================
+
+version: "3.9"
+
+services:
+  # ── PostgreSQL Database ──
+  postgres:
+    image: postgres:16-alpine
+    container_name: standupbot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: standupbot
+      POSTGRES_PASSWORD: standupbot
+      POSTGRES_DB: standupbot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U standupbot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
