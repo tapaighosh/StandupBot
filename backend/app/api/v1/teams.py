@@ -2,9 +2,26 @@
 StandupBot — Teams API Routes
 
 Team CRUD, member management, and question configuration.
-Implementation stubs — full logic in Module 1.
+
+ROUTE PATTERN:
+  Every route follows the same structure:
+  1. Parse request (FastAPI does this automatically via Pydantic)
+  2. Create service instance with the DB session
+  3. Call the service method (the service handles ALL business logic)
+  4. Format and return the response
+
+  Routes are THIN — no business logic here. This makes the service
+  layer testable independently of HTTP/FastAPI.
+
+AUTHORIZATION:
+  All routes require authentication (CurrentUserId dependency).
+  The service layer then checks ownership of the specific team.
+  So we have TWO layers of protection:
+  1. JWT validation → "is this a logged-in user?"
+  2. Team ownership → "does this user own this team?"
 """
 
+import logging
 from uuid import UUID
 
 from fastapi import APIRouter
@@ -20,11 +37,16 @@ from app.schemas.team import (
     TeamResponse,
     TeamUpdateRequest,
 )
+from app.services.team_service import TeamService
+
+logger = logging.getLogger("standupbot.api.teams")
 
 router = APIRouter()
 
 
-# ── Team CRUD ──
+# ═══════════════════════════════════════════════════════════════════════
+# TEAM CRUD
+# ═══════════════════════════════════════════════════════════════════════
 
 
 @router.post(
@@ -39,9 +61,35 @@ async def create_team(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> TeamResponse:
-    """Create a new team."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Create team")
+    """
+    Create a new team.
+
+    THE FLOW:
+    1. Validate request body (Pydantic does this automatically)
+    2. Check plan limits (free: 1 team max)
+    3. Create team + 3 default questions + settings in one transaction
+    4. Return the full team response with questions
+
+    PLAN LIMIT: If the user already has the max number of teams
+    for their plan, the service raises PlanLimitError (403).
+    """
+    service = TeamService(db)
+    team = await service.create_team(owner_id=user_id, data=request)
+
+    return TeamResponse(
+        id=team.id,
+        name=team.name,
+        timezone=team.timezone,
+        reminder_time=team.reminder_time,
+        digest_time=team.digest_time,
+        submission_window_start=team.submission_window_start,
+        submission_window_end=team.submission_window_end,
+        allow_late_submissions=team.allow_late_submissions,
+        is_active=team.is_active,
+        member_count=len([m for m in team.members if m.is_active]),
+        questions=[QuestionResponse.model_validate(q) for q in team.questions if q.is_active],
+        created_at=team.created_at,
+    )
 
 
 @router.get(
@@ -51,9 +99,26 @@ async def create_team(
     description="Get all teams owned by the current user.",
 )
 async def list_teams(user_id: CurrentUserId, db: DBSession) -> list[TeamListResponse]:
-    """List all teams owned by the authenticated user."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — List teams")
+    """
+    List all teams owned by the authenticated user.
+
+    Returns a summary view (no questions or settings) for quick loading.
+    The frontend calls GET /{team_id} for full details when needed.
+    """
+    service = TeamService(db)
+    teams = await service.list_teams(owner_id=user_id)
+
+    return [
+        TeamListResponse(
+            id=t.id,
+            name=t.name,
+            timezone=t.timezone,
+            member_count=len([m for m in t.members if m.is_active]),
+            is_active=t.is_active,
+            created_at=t.created_at,
+        )
+        for t in teams
+    ]
 
 
 @router.get(
@@ -63,9 +128,28 @@ async def list_teams(user_id: CurrentUserId, db: DBSession) -> list[TeamListResp
     description="Get full details of a specific team.",
 )
 async def get_team(team_id: UUID, user_id: CurrentUserId, db: DBSession) -> TeamResponse:
-    """Get team details including questions and member count."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Get team")
+    """
+    Get team details including questions and member count.
+
+    The service verifies ownership — a user can only see their own teams.
+    """
+    service = TeamService(db)
+    team = await service.get_team(team_id=team_id, owner_id=user_id)
+
+    return TeamResponse(
+        id=team.id,
+        name=team.name,
+        timezone=team.timezone,
+        reminder_time=team.reminder_time,
+        digest_time=team.digest_time,
+        submission_window_start=team.submission_window_start,
+        submission_window_end=team.submission_window_end,
+        allow_late_submissions=team.allow_late_submissions,
+        is_active=team.is_active,
+        member_count=len([m for m in team.members if m.is_active]),
+        questions=[QuestionResponse.model_validate(q) for q in team.questions if q.is_active],
+        created_at=team.created_at,
+    )
 
 
 @router.put(
@@ -80,9 +164,26 @@ async def update_team(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> TeamResponse:
-    """Update team settings."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Update team")
+    """
+    Update team settings. Only the fields provided are updated (partial update).
+    """
+    service = TeamService(db)
+    team = await service.update_team(team_id=team_id, owner_id=user_id, data=request)
+
+    return TeamResponse(
+        id=team.id,
+        name=team.name,
+        timezone=team.timezone,
+        reminder_time=team.reminder_time,
+        digest_time=team.digest_time,
+        submission_window_start=team.submission_window_start,
+        submission_window_end=team.submission_window_end,
+        allow_late_submissions=team.allow_late_submissions,
+        is_active=team.is_active,
+        member_count=len([m for m in team.members if m.is_active]),
+        questions=[QuestionResponse.model_validate(q) for q in team.questions if q.is_active],
+        created_at=team.created_at,
+    )
 
 
 @router.delete(
@@ -92,12 +193,18 @@ async def update_team(
     description="Soft-delete a team and deactivate all members.",
 )
 async def delete_team(team_id: UUID, user_id: CurrentUserId, db: DBSession) -> MessageResponse:
-    """Soft-delete a team."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Delete team")
+    """
+    Soft-delete a team. Sets deleted_at and deactivates all members.
+    The team's data is preserved for audit purposes.
+    """
+    service = TeamService(db)
+    await service.delete_team(team_id=team_id, owner_id=user_id)
+    return MessageResponse(message="Team deleted successfully")
 
 
-# ── Member Management ──
+# ═══════════════════════════════════════════════════════════════════════
+# MEMBER MANAGEMENT
+# ═══════════════════════════════════════════════════════════════════════
 
 
 @router.post(
@@ -113,9 +220,22 @@ async def invite_member(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> MemberResponse:
-    """Invite a member to the team."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Invite member")
+    """
+    Invite a member to the team.
+
+    WHAT HAPPENS:
+    - Creates a Member row in the DB (linked to the team)
+    - Does NOT send an email yet (that's Module 5: Notifications)
+    - The member will receive daily magic links once reminders are configured
+    """
+    service = TeamService(db)
+    member = await service.invite_member(
+        team_id=team_id,
+        owner_id=user_id,
+        email=request.email,
+        name=request.name,
+    )
+    return MemberResponse.model_validate(member)
 
 
 @router.get(
@@ -129,9 +249,12 @@ async def list_members(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> list[MemberResponse]:
-    """List active team members."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — List members")
+    """
+    List active team members. Removed members are hidden.
+    """
+    service = TeamService(db)
+    members = await service.list_members(team_id=team_id, owner_id=user_id)
+    return [MemberResponse.model_validate(m) for m in members]
 
 
 @router.delete(
@@ -146,12 +269,17 @@ async def remove_member(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> MessageResponse:
-    """Remove (deactivate) a team member."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Remove member")
+    """
+    Remove a member from the team (soft-delete: sets is_active=False).
+    """
+    service = TeamService(db)
+    await service.remove_member(team_id=team_id, member_id=member_id, owner_id=user_id)
+    return MessageResponse(message="Member removed successfully")
 
 
-# ── Question Management ──
+# ═══════════════════════════════════════════════════════════════════════
+# QUESTION MANAGEMENT
+# ═══════════════════════════════════════════════════════════════════════
 
 
 @router.get(
@@ -165,9 +293,16 @@ async def get_questions(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> list[QuestionResponse]:
-    """Get team's standup questions."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Get questions")
+    """
+    Get the team's active standup questions, ordered by order_index.
+    """
+    service = TeamService(db)
+    team = await service.get_team(team_id=team_id, owner_id=user_id)
+    return [
+        QuestionResponse.model_validate(q)
+        for q in team.questions
+        if q.is_active
+    ]
 
 
 @router.put(
@@ -182,6 +317,12 @@ async def update_questions(
     user_id: CurrentUserId,
     db: DBSession,
 ) -> list[QuestionResponse]:
-    """Update team's standup questions (full replacement)."""
-    # TODO: Implement in Module 1
-    raise NotImplementedError("Module 1: Teams — Update questions")
+    """
+    Replace all standup questions (full replacement strategy).
+    Old questions are deactivated, new ones are created.
+    """
+    service = TeamService(db)
+    new_questions = await service.update_questions(
+        team_id=team_id, owner_id=user_id, questions=questions
+    )
+    return [QuestionResponse.model_validate(q) for q in new_questions]

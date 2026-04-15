@@ -24,3 +24,13 @@
 **Notes:** Decided to add a `jti` claim to tokens for robust token rotation testing.
 
 ---
+
+### 2026-04-15 20:43 — FEATURE
+
+**Prompt Summary:** Implement Module 1b — Team CRUD & Member Management (Backend Only)  
+**Module:** Module 1b (Teams Backend)  
+**Files Modified:** `backend/app/services/team_service.py`, `backend/app/api/v1/teams.py`, `backend/tests/test_teams.py`, `.ai-context/prompt_history.md`  
+**Outcome:** Complete team CRUD (create, list, get, update, soft-delete), member management (invite, list, remove, re-activate), question management (get, update), with 27 passing tests. All 50 tests pass across the full suite.  
+**Notes:** Fixed UUID/str type mismatch in owner authorization check (JWT returns string, DB stores UUID). Plan limits enforced via PLAN_LIMITS constant dict — free: 1 team, 5 members.
+
+---
