@@ -1,42 +1,53 @@
 /**
- * StandupBot — Login Page (placeholder)
- * Full implementation in Module 1.
+ * StandupBot — Login Page
+ *
+ * Full-screen login experience with animated background and glassmorphism card.
+ * If already authenticated, redirects to /dashboard.
+ *
+ * LAYOUT:
+ *   - Full viewport dark background with animated gradient orbs
+ *   - Centered glassmorphism card containing the LoginForm
+ *   - Responsive — works on mobile, tablet, and desktop
  */
 
-import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { LoginForm } from '../components/auth/LoginForm';
+import { Spinner } from '../components/ui/Spinner';
+import './Login.css';
 
 export function Login() {
-  return (
-    <Card variant="glass" padding="lg">
-      <div style={{ textAlign: 'center' }}>
-        <span style={{ fontSize: '3rem' }}>⚡</span>
-        <h1 style={{ margin: 'var(--space-4) 0 var(--space-2)' }}>StandupBot</h1>
-        <p style={{
-          color: 'var(--color-text-tertiary)',
-          marginBottom: 'var(--space-8)',
-          fontSize: 'var(--font-size-sm)',
-        }}>
-          Replace your standup calls with a 2-minute async ritual
-        </p>
+  const { isAuthenticated, isLoading } = useAuth();
 
-        <Button
-          variant="primary"
-          size="lg"
-          style={{ width: '100%' }}
-          onClick={() => alert('Google OAuth — implement in Module 1')}
-        >
-          Continue with Google
-        </Button>
+  // Already logged in? Go straight to dashboard.
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
-        <p style={{
-          marginTop: 'var(--space-6)',
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--color-text-muted)',
-        }}>
-          By continuing, you agree to our Terms of Service and Privacy Policy.
-        </p>
+  // Still checking token on mount? Show loading.
+  if (isLoading) {
+    return (
+      <div className="login-page">
+        <div className="login-page__loading">
+          <Spinner size="lg" label="Checking session..." />
+        </div>
       </div>
-    </Card>
+    );
+  }
+
+  return (
+    <div className="login-page">
+      {/* Animated background orbs */}
+      <div className="login-page__bg" aria-hidden="true">
+        <div className="login-page__orb login-page__orb--1" />
+        <div className="login-page__orb login-page__orb--2" />
+        <div className="login-page__orb login-page__orb--3" />
+      </div>
+
+      {/* Glassmorphism card */}
+      <div className="login-page__card">
+        <LoginForm />
+      </div>
+    </div>
   );
 }

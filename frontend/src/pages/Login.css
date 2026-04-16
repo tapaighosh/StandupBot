@@ -1,0 +1,137 @@
+/* =================================================================
+   StandupBot — Login Page Styles
+   Full-screen dark background with animated gradient orbs
+   ================================================================= */
+
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-primary);
+  overflow: hidden;
+  padding: var(--space-4);
+}
+
+.login-page__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Animated Background Orbs ── */
+
+.login-page__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.login-page__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+
+.login-page__orb--1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation-duration: 14s;
+}
+
+.login-page__orb--2 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  bottom: -15%;
+  right: -5%;
+  animation-duration: 18s;
+  animation-delay: -4s;
+}
+
+.login-page__orb--3 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, var(--color-primary-dark) 0%, transparent 70%);
+  top: 40%;
+  right: 20%;
+  animation-duration: 16s;
+  animation-delay: -8s;
+  opacity: 0.25;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  50% {
+    transform: translate(-15px, 15px) scale(0.95);
+  }
+  75% {
+    transform: translate(20px, 10px) scale(1.02);
+  }
+}
+
+/* ── Glassmorphism Card ── */
+
+.login-page__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-10);
+  background: rgba(22, 22, 42, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  animation: fadeInScale 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+  .login-page__card {
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    max-width: 100%;
+  }
+
+  .login-page__orb {
+    filter: blur(60px);
+    opacity: 0.3;
+  }
+
+  .login-page__orb--1 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .login-page__orb--2 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .login-page__orb--3 {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .login-page__card {
+    padding: var(--space-8);
+  }
+}
