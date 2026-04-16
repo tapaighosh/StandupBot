@@ -1,0 +1,189 @@
+/* =================================================================
+   StandupBot — LoginForm Styles
+   Glassmorphism card with premium micro-animations
+   ================================================================= */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ── Brand / Hero ── */
+
+.login-form__brand {
+  text-align: center;
+  animation: fadeInUp 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.login-form__icon {
+  font-size: 3.5rem;
+  margin-bottom: var(--space-2);
+  filter: drop-shadow(0 0 24px var(--color-primary-glow));
+  animation: bounce 2.5s ease-in-out infinite;
+}
+
+.login-form__title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 var(--space-2);
+}
+
+.login-form__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* ── Divider ── */
+
+.login-form__divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-4);
+  animation: fadeIn 800ms 200ms forwards;
+  opacity: 0;
+}
+
+.login-form__divider::before,
+.login-form__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.login-form__divider span {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+/* ── Google Button Area ── */
+
+.login-form__google-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  animation: fadeInUp 600ms 300ms forwards;
+  opacity: 0;
+}
+
+.login-form__google-button {
+  display: flex;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.login-form__google-button:hover {
+  transform: scale(1.02);
+}
+
+/* ── Loading State ── */
+
+.login-form__loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  padding: var(--space-3) var(--space-6);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  backdrop-filter: var(--glass-blur);
+}
+
+.login-form__spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Error Message ── */
+
+.login-form__error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-bg);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+}
+
+.login-form__error-icon {
+  font-size: var(--font-size-base);
+}
+
+/* ── Feature Highlights ── */
+
+.login-form__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: var(--glass-blur);
+  animation: fadeInUp 600ms 400ms forwards;
+  opacity: 0;
+}
+
+.login-form__feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.login-form__feature-icon {
+  font-size: var(--font-size-base);
+  flex-shrink: 0;
+}
+
+/* ── Terms ── */
+
+.login-form__terms {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  animation: fadeIn 800ms 500ms forwards;
+  opacity: 0;
+}
+
+.login-form__terms a {
+  color: var(--color-text-tertiary);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.login-form__terms a:hover {
+  text-decoration-color: var(--color-text-tertiary);
+}
