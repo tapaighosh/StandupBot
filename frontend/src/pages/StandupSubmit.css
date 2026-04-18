@@ -1,0 +1,166 @@
+/* =================================================================
+   StandupBot — StandupSubmit Page Styles
+   Mobile-first page with animated background
+   ================================================================= */
+
+.standup-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: var(--color-bg-primary);
+  overflow: hidden;
+  padding: var(--space-6) var(--space-4);
+  padding-top: 8vh;
+}
+
+/* ── Background Orbs ── */
+
+.standup-page__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.standup-page__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: orbFloat 14s ease-in-out infinite;
+}
+
+.standup-page__orb--1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  top: -8%;
+  right: -5%;
+}
+
+.standup-page__orb--2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  bottom: -10%;
+  left: -5%;
+  animation-delay: -6s;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(15px, -10px) scale(1.03); }
+}
+
+/* ── Card Container ── */
+
+.standup-page__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  padding: var(--space-8);
+  background: rgba(22, 22, 42, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  animation: fadeInScale 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── Header ── */
+
+.standup-page__header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  animation: fadeInUp var(--transition-base) forwards;
+}
+
+.standup-page__emoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.standup-page__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+.standup-page__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.standup-page__team {
+  color: var(--color-primary-light);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Status States (error, already submitted) ── */
+
+.standup-page__center {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-10) 0;
+}
+
+.standup-page__status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-6) 0;
+}
+
+.standup-page__status-icon {
+  font-size: 3rem;
+}
+
+.standup-page__status-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.standup-page__status-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  max-width: 320px;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+  .standup-page {
+    padding: var(--space-4);
+    padding-top: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .standup-page__card {
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
+  }
+
+  .standup-page__title {
+    font-size: var(--font-size-xl);
+  }
+
+  .standup-page__orb {
+    filter: blur(60px);
+    opacity: 0.2;
+  }
+}

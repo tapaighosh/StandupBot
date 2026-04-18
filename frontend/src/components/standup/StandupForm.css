@@ -1,0 +1,200 @@
+/* =================================================================
+   StandupBot — StandupForm Styles
+   Mobile-first, dead-simple form design
+   ================================================================= */
+
+.standup-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  animation: fadeInUp var(--transition-base) forwards;
+}
+
+/* ── Progress Bar ── */
+
+.standup-form__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.standup-form__progress-bar {
+  height: 4px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.standup-form__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-full);
+  transition: width 300ms ease-out;
+}
+
+.standup-form__progress-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* ── Questions ── */
+
+.standup-form__questions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.standup-form__question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: fadeInUp var(--transition-base) forwards;
+  opacity: 0;
+}
+
+/* Stagger question animations */
+.standup-form__question:nth-child(1) { animation-delay: 0ms; }
+.standup-form__question:nth-child(2) { animation-delay: 80ms; }
+.standup-form__question:nth-child(3) { animation-delay: 160ms; }
+.standup-form__question:nth-child(4) { animation-delay: 240ms; }
+.standup-form__question:nth-child(5) { animation-delay: 320ms; }
+
+.standup-form__label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+.standup-form__question-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.standup-form__textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  resize: vertical;
+  min-height: 80px;
+  transition: all var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.standup-form__textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.standup-form__textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+  background: var(--color-bg-elevated);
+}
+
+/* ── Error ── */
+
+.standup-form__error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-bg);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  animation: fadeInUp var(--transition-fast) forwards;
+}
+
+/* ── Submit Button ── */
+
+.standup-form__submit {
+  width: 100%;
+  padding: var(--space-4);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  /* Disabled state (default) */
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+}
+
+.standup-form__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Ready state — can submit */
+.standup-form__submit--ready {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: var(--shadow-glow);
+}
+
+.standup-form__submit--ready:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px var(--color-primary-glow);
+}
+
+.standup-form__submit--ready:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Spinner */
+.standup-form__spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+  .standup-form__textarea {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: var(--space-3);
+  }
+
+  .standup-form__submit {
+    padding: var(--space-4) var(--space-3);
+    font-size: var(--font-size-sm);
+    /* Stick to bottom on mobile for easy thumb reach */
+    position: sticky;
+    bottom: var(--space-4);
+  }
+}
