@@ -230,3 +230,19 @@ async def auth_client(client: AsyncClient, create_test_user):
     headers = make_auth_headers(user.id)
     client.headers.update(headers)
     yield client, user
+
+
+@pytest_asyncio.fixture
+async def auth_headers():
+    """
+    Factory fixture that returns auth headers for a given user.
+
+    Usage:
+        headers = await auth_headers(user)
+        response = await client.get("/api/v1/...", headers=headers)
+    """
+
+    async def _make(user) -> dict:
+        return make_auth_headers(user.id)
+
+    return _make
