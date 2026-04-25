@@ -15,6 +15,8 @@ import { PublicLayout } from './components/layout/PublicLayout';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { StandupSubmit } from './pages/StandupSubmit';
+import { DigestHistory } from './pages/DigestHistory';
+import { DigestDetail } from './pages/DigestDetail';
 import { NotFound } from './pages/NotFound';
 
 export default function App() {
@@ -40,7 +42,8 @@ export default function App() {
             >
               <Route index element={<Dashboard />} />
               {/* Module 1: <Route path="teams" element={<Teams />} /> */}
-              {/* Module 4: <Route path="digests" element={<DigestHistory />} /> */}
+              <Route path="digests" element={<DigestHistory />} />
+              <Route path="digests/:id" element={<DigestDetail />} />
               {/* Module 6: <Route path="analytics" element={<Analytics />} /> */}
               {/* Module 1: <Route path="settings" element={<TeamSettings />} /> */}
             </Route>
