@@ -127,7 +127,7 @@ def register_exception_handlers(app: FastAPI) -> None:
 
         logger = logging.getLogger("standupbot")
         logger.exception(f"Unhandled exception on {request.method} {request.url.path}")
-
+        logger.exception("Unhandled exception", str(exc))
         return JSONResponse(
             status_code=500,
             content={
