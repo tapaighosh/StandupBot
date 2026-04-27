@@ -1,0 +1,346 @@
+/* =================================================================
+   StandupBot — TeamSettings Page Styles
+   ================================================================= */
+
+.team-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  animation: fadeSlideIn 300ms ease both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Loading ── */
+.team-settings__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-20) var(--space-6);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* ── Error ── */
+.team-settings__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-16) var(--space-8);
+  text-align: center;
+  background: var(--color-danger-bg);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: var(--radius-2xl);
+}
+
+.team-settings__error-icon {
+  font-size: 3rem;
+}
+
+.team-settings__error h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.team-settings__error p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.team-settings__error-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* ── Breadcrumb ── */
+.team-settings__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.team-settings__breadcrumb-link {
+  color: var(--color-primary-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.team-settings__breadcrumb-link:hover {
+  color: var(--color-accent-light);
+}
+
+.team-settings__breadcrumb-sep {
+  color: var(--color-text-muted);
+}
+
+.team-settings__breadcrumb-current {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Page Header ── */
+.team-settings__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.team-settings__header-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px var(--color-primary-glow);
+}
+
+.team-settings__title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.team-settings__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ════════════════════════════════════════
+   Radix Tabs
+════════════════════════════════════════ */
+.team-settings__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Tab list (pill strip) ── */
+.team-settings__tabs-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  width: fit-content;
+  margin-bottom: var(--space-6);
+}
+
+/* ── Individual tab trigger ── */
+.team-settings__tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+  white-space: nowrap;
+  outline: none;
+}
+
+.team-settings__tab:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-hover);
+}
+
+.team-settings__tab[data-state='active'] {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: 0 2px 8px var(--color-primary-glow);
+}
+
+.team-settings__tab:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Tab badge (member count / question count) */
+.team-settings__tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-1);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.team-settings__tab:not([data-state='active']) .team-settings__tab-badge {
+  background: var(--color-surface);
+  color: var(--color-text-tertiary);
+}
+
+/* ── Panel ── */
+.team-settings__panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  animation: panelIn 200ms ease;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════════════════════════════
+   General Tab Form
+════════════════════════════════════════ */
+.team-settings__general-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.team-settings__form-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.team-settings__section-heading {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.team-settings__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.team-settings__select,
+.team-settings__time-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.team-settings__select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c6c84' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-10);
+}
+
+.team-settings__select option,
+.team-settings__time-input option {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+.team-settings__select:focus,
+.team-settings__time-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+/* Time grid 2-col */
+.team-settings__time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .team-settings__time-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Checkbox */
+.team-settings__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.team-settings__checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.team-settings__checkbox-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ── Alerts ── */
+.team-settings__alert {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.team-settings__alert--error {
+  background: var(--color-danger-bg);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  color: var(--color-danger);
+}
+
+.team-settings__alert--success {
+  background: var(--color-success-bg);
+  border: 1px solid rgba(0, 184, 148, 0.3);
+  color: var(--color-success);
+}
+
+/* ── Form actions ── */
+.team-settings__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
