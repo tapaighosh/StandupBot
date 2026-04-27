@@ -1,0 +1,158 @@
+/* =================================================================
+   StandupBot — DigestCard Styles
+   List item card with response rate bar and status badge
+   ================================================================= */
+
+.digest-card {
+  display: grid;
+  grid-template-columns: 140px 1fr auto auto auto;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: left;
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+}
+
+.digest-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.digest-card:active {
+  transform: translateY(0);
+}
+
+/* Date column */
+.digest-card__date-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* Response rate bar */
+.digest-card__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.digest-card__bar-container {
+  flex: 1;
+  height: 6px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.digest-card__bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 600ms ease-out;
+}
+
+.digest-card__rate--high {
+  background: linear-gradient(90deg, var(--color-success), var(--color-accent-light));
+}
+
+.digest-card__rate--mid {
+  background: linear-gradient(90deg, var(--color-warning), #f8b500);
+}
+
+.digest-card__rate--low {
+  background: linear-gradient(90deg, var(--color-danger), #ee5a24);
+}
+
+.digest-card__rate-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+/* Count */
+.digest-card__count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50px;
+}
+
+.digest-card__count-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.digest-card__count-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Status badge */
+.digest-card__status {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  text-transform: capitalize;
+}
+
+.digest-card__status--sent {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.digest-card__status--pending {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.digest-card__status--failed {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+/* Arrow */
+.digest-card__arrow {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  transition: transform var(--transition-fast);
+}
+
+.digest-card:hover .digest-card__arrow {
+  color: var(--color-primary-light);
+  transform: translateX(3px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .digest-card {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .digest-card__stats {
+    grid-column: 1 / -1;
+  }
+
+  .digest-card__count,
+  .digest-card__status,
+  .digest-card__arrow {
+    display: none;
+  }
+
+  .digest-card__date-text {
+    font-size: var(--font-size-base);
+  }
+}
