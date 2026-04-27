@@ -41,3 +41,10 @@ coverage/
 
 #graphify
 graphify-out/
+
+#alembic
+backend/alembic/__pycache__/
+backend/alembic/versions/__pycache__/
+backend/alembic/versions/
+
+
