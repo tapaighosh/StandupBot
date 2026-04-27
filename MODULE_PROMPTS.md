@@ -248,6 +248,61 @@ breakpoints.
 
 ---
 
+## Prompt 3b — Team CRUD & Member Management (Frontend)
+
+### 🎯 What it does
+Implements the frontend UI for managing teams, members, and custom questions using the API endpoints created in Module 1b.
+
+### 🧠 What you'll learn
+- Complex form state management in React
+- Connecting components to a RESTful API wrapper
+- Tabbed interfaces and modals using Radix UI
+- Client-side routing with parameters (`/dashboard/teams/:id`)
+- Error boundaries and data fetching lifecycles
+
+### 📁 Files involved
+- `frontend/src/pages/Teams.tsx` — new
+- `frontend/src/pages/TeamSettings.tsx` — new 
+- `frontend/src/components/teams/TeamCard.tsx` — new
+- `frontend/src/components/teams/TeamCreateModal.tsx` — new
+- `frontend/src/components/teams/TeamGeneralForm.tsx` — new
+- `frontend/src/components/teams/MembersManager.tsx` — new
+- `frontend/src/components/teams/QuestionsManager.tsx` — new
+- `frontend/src/App.tsx` — modified
+
+### 💬 The Prompt
+
+```text
+Implement Module 1b — Team CRUD & Member Management (Frontend)
+
+The backend Teams API is ready. Build the frontend UI to interact with it, utilizing our custom `teams.ts` api client.
+
+1. Add `frontend/src/pages/Teams.tsx`:
+   - Fetch all teams using `teamsApi.list()`
+   - Display a grid of `TeamCard` components showing basic info (name, member count)
+   - Add a "Create New Team" button (opens a modal)
+
+2. Create `frontend/src/components/teams/TeamCreateModal.tsx`:
+   - Use @radix-ui/react-dialog for accessibility
+   - Form hits `teamsApi.create()` with name and timezone
+   - On success, redirect to the new team's settings page
+
+3. Add `frontend/src/pages/TeamSettings.tsx` (Route: `/dashboard/teams/:id`):
+   - Fetch full team context using `teamsApi.get(team_id)`
+   - Implement a tabbed layout using @radix-ui/react-tabs with three core sections:
+     a) **General**: Edit name, timezone, schedules using `teamsApi.update()`.
+     b) **Members**: Invite via email using `teamsApi.inviteMember()`, view list, and soft-remove. Use `MembersManager.tsx`.
+     c) **Questions**: View, add, modify, reorder standup questions via `teamsApi.updateQuestions()`. Use `QuestionsManager.tsx`.
+
+4. Update `frontend/src/App.tsx`:
+   - Add `<Route path="teams" element={<Teams />} />`
+   - Add `<Route path="teams/:id" element={<TeamSettings />} />`
+
+Make sure the components handle loading states effectively and match the glassmorphism/gradient design system defined in `variables.css`. Install @radix-ui/react-tabs and @radix-ui/react-dialog.
+```
+
+---
+
 ## Prompt 4 — Token (Magic Link) Engine (Backend)
 
 ### 🎯 What it does

@@ -38,3 +38,6 @@ coverage/
 
 # Agent artifacts
 .gemini/
+
+#graphify
+graphify-out/
