@@ -14,6 +14,8 @@ import { PublicLayout } from './components/layout/PublicLayout';
 // Pages
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
+import { Teams } from './pages/Teams';
+import { TeamSettings } from './pages/TeamSettings';
 import { StandupSubmit } from './pages/StandupSubmit';
 import { DigestHistory } from './pages/DigestHistory';
 import { DigestDetail } from './pages/DigestDetail';
@@ -41,11 +43,12 @@ export default function App() {
               }
             >
               <Route index element={<Dashboard />} />
-              {/* Module 1: <Route path="teams" element={<Teams />} /> */}
+              {/* Module 1b: Team CRUD & Member Management */}
+              <Route path="teams" element={<Teams />} />
+              <Route path="teams/:id" element={<TeamSettings />} />
               <Route path="digests" element={<DigestHistory />} />
               <Route path="digests/:id" element={<DigestDetail />} />
               {/* Module 6: <Route path="analytics" element={<Analytics />} /> */}
-              {/* Module 1: <Route path="settings" element={<TeamSettings />} /> */}
             </Route>
 
             {/* Redirect root to dashboard */}
