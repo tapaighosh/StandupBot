@@ -74,3 +74,14 @@
 **Notes:** LLM fallback pattern is critical — all LLM calls wrapped in try/except, digest generates without AI summary if LLM fails. Dual blocker detection: keyword matching (always works) + LLM classification (optional enhancement). Idempotent regeneration deletes and replaces existing digest. Added `auth_headers` factory fixture to conftest.
 
 ---
+
+### 2026-05-04 20:34 — FEATURE
+
+**Prompt Summary:** Implement Module 5 — Notification System (Backend)  
+**Module:** Module 5 (Notification System)  
+**Branch:** `feature/notification-system`  
+**Files Modified:** `backend/app/services/email_service.py`, `backend/app/services/notification_service.py`, `backend/app/tasks/reminder_job.py`, `backend/app/tasks/nudge_job.py`, `backend/app/tasks/scheduler.py`, `backend/app/models/token.py`, `backend/tests/test_notifications.py`, `backend/app/templates/reminder.html`, `backend/app/templates/nudge.html`, `backend/app/templates/digest.html`, `backend/app/templates/alert.html`  
+**Outcome:** Full notification pipeline: Jinja2 HTML email templates (4), EmailService with Resend SDK + graceful degradation, NotificationService (reminders/nudges/alerts), reminder_job + nudge_job with 3-retry backoff, scheduler updated with all 3 jobs per team. 17 tests with MockEmailService. All 105 tests pass.  
+**Notes:** Nudge "one per day" tracking via `nudge_sent_at` field added to StandupToken model. Nudge time = reminder_time + nudge_delay_minutes (computed in scheduler). EmailService never raises — all sends return bool. Template tests bypass DB using unit-test approach.
+
+---
