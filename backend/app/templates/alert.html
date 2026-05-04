@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Low Response Alert — {{ team_name }}</title>
+  <style>
+    body { margin: 0; padding: 0; background: #0a0a0f; font-family: 'Segoe UI', Arial, sans-serif; }
+    .wrapper { max-width: 560px; margin: 40px auto; background: #16162a; border-radius: 16px; overflow: hidden; border: 1px solid rgba(253,203,110,0.15); }
+    .header { background: linear-gradient(135deg, #e17055, #fdcb6e); padding: 28px 40px; text-align: center; }
+    .header-icon { font-size: 36px; margin-bottom: 8px; }
+    .header-title { color: white; font-size: 20px; font-weight: 700; margin: 0; }
+    .body { padding: 32px 40px; }
+    .greeting { font-size: 17px; font-weight: 600; color: #f0f0f8; margin: 0 0 12px; }
+    .message { font-size: 14px; color: #a0a0b8; line-height: 1.7; margin: 0 0 20px; }
+    .stat-box { background: rgba(253,203,110,0.08); border: 1px solid rgba(253,203,110,0.2); border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; text-align: center; }
+    .stat-value { font-size: 36px; font-weight: 800; color: #fdcb6e; margin: 0; line-height: 1; }
+    .stat-label { font-size: 13px; color: #a0a0b8; margin: 6px 0 0; }
+    .cta-btn { display: block; width: fit-content; margin: 0 auto; padding: 12px 28px; background: linear-gradient(135deg, #6c5ce7, #00cec9); color: white; text-decoration: none; border-radius: 50px; font-size: 14px; font-weight: 600; }
+    .footer { padding: 20px 40px; text-align: center; }
+    .footer-text { font-size: 12px; color: #4a4a62; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="header-icon">⚠️</div>
+      <p class="header-title">Low Response Alert</p>
+    </div>
+    <div class="body">
+      <p class="greeting">Hi {{ manager_name }},</p>
+      <p class="message">
+        Today's response rate for <strong style="color:#f0f0f8;">{{ team_name }}</strong> is below your
+        alert threshold of {{ threshold }}%. You may want to follow up with
+        the non-responding members.
+      </p>
+      <div class="stat-box">
+        <p class="stat-value">{{ response_rate }}%</p>
+        <p class="stat-label">{{ responded_count }} of {{ total_members }} members responded</p>
+      </div>
+      {% if non_responders %}
+      <p style="font-size:13px; color:#a0a0b8; margin-bottom:16px;">
+        <strong style="color:#f0f0f8;">Non-responders:</strong> {{ non_responders | join(', ') }}
+      </p>
+      {% endif %}
+      <a class="cta-btn" href="{{ dashboard_url }}">View Today's Digest →</a>
+    </div>
+    <div class="footer">
+      <p class="footer-text">You set a {{ threshold }}% alert threshold for {{ team_name }}.</p>
+    </div>
+  </div>
+</body>
+</html>

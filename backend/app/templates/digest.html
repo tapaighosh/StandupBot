@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ team_name }} Daily Digest — {{ digest_date }}</title>
+  <style>
+    body { margin: 0; padding: 0; background: #0a0a0f; font-family: 'Segoe UI', Arial, sans-serif; }
+    .wrapper { max-width: 640px; margin: 40px auto; background: #16162a; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+    .header { background: linear-gradient(135deg, #6c5ce7, #00cec9); padding: 28px 40px; }
+    .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+    .header-logo { font-size: 24px; }
+    .header-brand { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .header-title { color: white; font-size: 22px; font-weight: 700; margin: 0; }
+    .header-date { color: rgba(255,255,255,0.75); font-size: 13px; margin: 4px 0 0; }
+    .body { padding: 32px 40px; }
+
+    /* Response rate bar */
+    .rate-section { background: #1a1a2e; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; }
+    .rate-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .rate-label { font-size: 12px; color: #a0a0b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rate-value { font-size: 20px; font-weight: 700; color: {{ rate_color }}; }
+    .rate-bar-bg { background: #0a0a0f; border-radius: 6px; height: 8px; overflow: hidden; }
+    .rate-bar-fill { height: 8px; border-radius: 6px; background: {{ rate_color }}; width: {{ response_rate }}%; }
+    .rate-count { font-size: 12px; color: #6c6c84; margin-top: 6px; }
+
+    /* AI Summary */
+    .ai-section { border: 1px solid rgba(108,92,231,0.3); border-radius: 12px; padding: 20px; margin-bottom: 24px; background: linear-gradient(135deg, rgba(108,92,231,0.05), rgba(0,206,201,0.03)); }
+    .ai-badge { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #6c5ce7, #00cec9); color: white; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .ai-text { font-size: 14px; color: #d0d0e8; line-height: 1.7; margin: 0; }
+    .ai-fallback { font-size: 13px; color: #6c6c84; font-style: italic; margin: 0; }
+
+    /* Blockers */
+    .section-title { font-size: 13px; font-weight: 600; color: #a0a0b8; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 12px; }
+    .blockers-section { margin-bottom: 24px; }
+    .blocker-item { background: rgba(255,107,107,0.08); border-left: 3px solid #ff6b6b; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+    .blocker-name { font-size: 13px; font-weight: 600; color: #ff6b6b; margin-bottom: 4px; }
+    .blocker-text { font-size: 13px; color: #c0a0a0; line-height: 1.5; margin: 0; }
+
+    /* Non-responders */
+    .nr-section { margin-bottom: 24px; }
+    .nr-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nr-pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 4px 12px; font-size: 13px; color: #6c6c84; }
+
+    /* No blockers */
+    .no-blockers { background: rgba(0,184,148,0.08); border: 1px solid rgba(0,184,148,0.15); border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; font-size: 13px; color: #00b894; }
+
+    /* CTA */
+    .cta-section { text-align: center; padding: 12px 0 4px; }
+    .cta-btn { display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #6c5ce7, #00cec9); color: white; text-decoration: none; border-radius: 50px; font-size: 14px; font-weight: 600; }
+
+    /* Footer */
+    .footer { padding: 20px 40px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }
+    .footer-text { font-size: 12px; color: #4a4a62; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="header-top">
+        <span class="header-logo">⚡</span>
+        <span class="header-brand">StandupBot</span>
+      </div>
+      <p class="header-title">{{ team_name }} — Daily Digest</p>
+      <p class="header-date">{{ digest_date }}</p>
+    </div>
+    <div class="body">
+
+      <!-- Response Rate -->
+      <div class="rate-section">
+        <div class="rate-header">
+          <span class="rate-label">Response Rate</span>
+          <span class="rate-value">{{ response_rate }}%</span>
+        </div>
+        <div class="rate-bar-bg"><div class="rate-bar-fill"></div></div>
+        <p class="rate-count">{{ responded_count }} of {{ total_members }} members responded</p>
+      </div>
+
+      <!-- AI Summary -->
+      <div class="ai-section">
+        <div class="ai-badge">✨ AI Summary</div>
+        {% if ai_summary %}
+          <p class="ai-text">{{ ai_summary }}</p>
+        {% else %}
+          <p class="ai-fallback">AI summary unavailable for this digest. Review individual responses below.</p>
+        {% endif %}
+      </div>
+
+      <!-- Blockers -->
+      {% if blockers %}
+      <div class="blockers-section">
+        <p class="section-title">🚧 Blockers ({{ blockers | length }})</p>
+        {% for b in blockers %}
+        <div class="blocker-item">
+          <div class="blocker-name">{{ b.member_name }}</div>
+          <p class="blocker-text">{{ b.answer_text }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="no-blockers">✨ No blockers reported today — the team is moving smoothly!</div>
+      {% endif %}
+
+      <!-- Non-responders -->
+      {% if non_responders %}
+      <div class="nr-section">
+        <p class="section-title">😶 Did Not Respond ({{ non_responders | length }})</p>
+        <div class="nr-list">
+          {% for name in non_responders %}
+          <span class="nr-pill">{{ name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Dashboard CTA -->
+      <div class="cta-section">
+        <a class="cta-btn" href="{{ dashboard_url }}">View Full Digest →</a>
+      </div>
+    </div>
+    <div class="footer">
+      <p class="footer-text">You're receiving this as manager of {{ team_name }}.<br />
+      Powered by StandupBot.</p>
+    </div>
+  </div>
+</body>
+</html>
